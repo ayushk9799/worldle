@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Unlimited Worldle - Guess the Country</title>
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="Guess the country name by image in the Unlimited Worldle game. Test your geography knowledge and have fun. Play unlimited worldle.">
+    <meta name="keywords" content="Worldle, geography, country quiz, geography game, guess the country, worldle unlimited ,country guess unlimited">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<!-- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> -->
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<!-- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> -->
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.12.0/tsparticles.confetti.bundle.min.js"></script>
+</head>
+
+<style>
+*{
+        margin:0px;
+        padding:0px;
+        box-sizing: border-box;
+    }
+
+#maincontent
+{
+  display:grid;
+  grid-template-rows: auto;
+  width:502px;
+  font-family: Roboto,Montserrat,sans-serif;
+  
+  
+}
+@media (max-width:502px)
+{
+    #maincontent
+    {
+        width:100%;
+        margin:5px;
+       
+    }
+   
+   
+}
+
+
+#worldle
+{
+   
+      border-bottom: 2px solid black;
+    padding:10px;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top:2px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#guess
+{
+    width:100%;
+    height:40px;
+   font-size: 20px;
+   padding:2px;
+   margin-bottom: 5px;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+   border: none;
+   outline: none;
+}
+#guess:focus
+{
+    outline:none;
+}
+#container
+{
+    display:flex;
+    justify-content: center;
+}
+#imageContainer
+{
+    display:flex;
+    justify-content: center;
+    margin-bottom:10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.guessDetails{
+    width:100%;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+    margin-top:2px;
+    /* height:33.2px; */
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr ;
+    column-gap: 2px;
+    
+}
+
+.gue
+{
+    height:33.2px;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.gparent
+{
+   
+    overflow:hidden;
+    display:flex;
+    height:33.2px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding:1px;
+}
+.g{
+   
+    /*  */
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+    font-size: 16px;
+   width:100%;
+   overflow: hidden;
+  text-align: center;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    /* font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif; */
+     font-family: Roboto,Montserrat,sans-serif;
+}
+#listandinput{
+    width:100%;
+    position: relative;
+}
+ul{
+        margin:0;
+        padding:0;
+        box-sizing: border-box;
+        display:none;
+        width:100%;
+       height:199.2px;
+       overflow-y: auto;
+       overflow-x:hidden;
+       position:absolute;
+       z-index: 1000;
+    }
+    ul::-webkit-scrollbar
+    {
+        width:7px;
+    }
+    ul::-webkit-scrollbar-thumb
+    {
+        background-color: black;
+    }
+    ul::-webkit-scrollbar-track
+    {
+        background-color: rgb(202, 202, 202);
+    }
+    li{
+       
+         padding:5px;
+         background-color: white;
+         list-style-type: none;
+         margin: 0;
+         font-size: 20px;
+         box-sizing: border-box;
+         border-bottom: 1px solid rgb(202, 202, 202);
+        
+    }
+    li:last-child
+    {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        
+    }
+    li:hover
+    {
+        background-color: rgb(219, 219, 219);
+    }
+    .correct
+    {
+        width:100%;
+        height:50px;
+        box-shadow: rgba(29, 177, 43, 0.24) 0px 3px 8px;
+        background-color:rgb(22, 163, 74);
+        color: white;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        margin-bottom: 5px;
+    }
+    .winOrlost
+    {
+        width:100%;
+        height:50px;
+        box-shadow: rgba(29, 177, 43, 0.24) 0px 3px 8px;
+       
+        color: white;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        margin-bottom: 5px;
+    }
+    .playagaincontainer
+    {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+    }
+    .playagain
+    {
+        width:fit-content;
+        padding:5px;
+        box-shadow: rgba(30, 231, 50, 0.24) 0px 3px 8px;
+        background-color:rgb(22, 163, 74);
+        color: white;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        border-radius: 5px;
+    }
+    
+</style>
+<body>
+   
+       <div id="container">
+        <div id="maincontent" >
+            
+                    <div id="worldle">UNLIMITED WORLDLE</div>
+            
+            <div id="imageContainer" width="208px" height="208px">
+                <!-- <img src="India.svg" width="208px" height="208px"/> -->
+                <img  alt="Guess the country" width="208px" height="208px" id="imageContainerimg">
+            </div>
+         
+            <div id="listandinput">
+                <input id="guess" placeholder="Guess Country names.....">
+                <ul id="countriesul" ></ul>
+            </div>
+            <div class="con">
+                <div class="guessed" >
+                    <div class="gue">Guess??</div>           
+                </div>
+                <div class="guessed" >
+                    <div class="gue">Guess??</div>           
+                </div>
+                <div class="guessed" >
+                    <div class="gue">Guess??</div>           
+                </div>
+                <div class="guessed" >
+                    <div class="gue">Guess??</div>           
+                </div>
+                <div class="guessed" >
+                    <div class="gue">Guess??</div>           
+                </div>
+                <div class="guessed" >
+                    <div class="gue">Guess??</div>           
+                </div>
+               
+            </div>
+           
+            
+        </div>
+       </div>
+       <script>
+       let lat;
+        let lng;
+        let country;
+        let countriesData;
+        let countriesDataMap=new Map();
+        let countryguess;
+        let lost=true;
+        let guessCount=0;
+        let buttonCall=document.getElementById('buttoncall')
+        let imageContainer=document.getElementById('imageContainerimg')
+        let resultList=document.getElementById('countriesul')
+        let guessView=document.getElementsByClassName('guessed')
+        let guessBody=document.getElementsByClassName('con');
+        let searchInput=document.getElementById('guess')
+
+        const getguessCountry=()=>
+        {
+            fetch('/data/countries').then((res)=>res.json()).then((data)=>
+        {
+
+            imageContainer.src=`data:image/svg+xml;utf8,${data.data}`;
+           
+            lat=data.country.latitude;
+            lng=data.country.longitude;
+             country=data.country.name;
+        })
+        }
+        getguessCountry();
+      
+        document.addEventListener('click',()=>
+        {
+            resultList.style.display='none'
+        })
+        const classifier=(latitude,longitude,lat,lng)=>
+             {
+                let dLat = (lat - latitude) * Math.PI / 180.0;
+        let dLon = (lng - longitude) * Math.PI / 180.0;
+        latitude = (latitude) * Math.PI / 180.0;
+        lat = (lat) * Math.PI / 180.0;
+        let a = Math.pow(Math.sin(dLat / 2), 2) +
+                   Math.pow(Math.sin(dLon / 2), 2) *
+                   Math.cos(latitude) *
+                   Math.cos(lat);
+        let rad = 6371;
+        let c = 2 * Math.asin(Math.sqrt(a));
+        let km=rad*c;
+       return parseInt(km);
+             }
+             function getGeneralDirection(lat1, lon1, lat2, lon2) {
+  // Convert degrees to radians
+  const lat1Rad = (lat1 * Math.PI) / 180;
+  const lon1Rad = (lon1 * Math.PI) / 180;
+  const lat2Rad = (lat2 * Math.PI) / 180;
+  const lon2Rad = (lon2 * Math.PI) / 180;
+
+  // Calculate the difference in longitude
+  const dlon = lon2Rad - lon1Rad;
+
+  // Calculate the angle using the arctangent function
+  const angleRad = Math.atan2(dlon,lat2Rad-lat1Rad);
+
+  // Convert the angle to degrees
+  const angleDeg = (angleRad * 180) / Math.PI;
+
+  // Determine the general direction
+  let direction = "";
+  if (angleDeg >= -22.5 && angleDeg < 22.5) {
+    direction = "⬆️";
+  } else if (angleDeg >= 22.5 && angleDeg < 67.5) {
+    direction = "↗️";
+  } else if (angleDeg >= 67.5 && angleDeg < 112.5) {
+    direction = "➡️";
+  } else if (angleDeg >= 112.5 && angleDeg < 157.5) {
+    direction = "↘️";
+  } else if (angleDeg >= 157.5 || angleDeg < -157.5) {
+    direction = "⬇️";
+  } else if (angleDeg >= -157.5 && angleDeg < -112.5) {
+    direction = "↙️";
+  } else if (angleDeg >= -112.5 && angleDeg < -67.5) {
+    direction = "⬅️";
+  } else if (angleDeg >= -67.5 && angleDeg < -22.5) {
+    direction = "↖️";
+  }
+
+  return direction;
+  
+}
+
+const playagainbutton=()=>
+{
+    location.reload();
+}
+const showAnswer=()=>
+{
+
+
+    searchInput.style.display='none'
+    
+   let ele= document.createElement('div');
+   let winOrlost=document.createElement('div');
+   let playagainContainer=document.createElement('div');
+   playagainContainer.className="playagaincontainer"
+   let playagain=document.createElement('div');
+   playagain.className='playagain';
+   playagain.innerHTML="Play Again";
+   playagain.onclick=playagainbutton;
+   playagainContainer.append(playagain)
+   winOrlost.className='winOrlost';
+   
+   ele.className="correct";
+   ele.innerHTML=`Correct : ${country}`;
+   guessBody[0].append(ele);
+   guessBody[0].append(winOrlost)
+   guessBody[0].append(playagainContainer)
+   if(lost)
+   {
+       winOrlost.innerHTML="YOU LOST";
+       winOrlost.style.backgroundColor='rgb(255, 0, 0)';
+   }
+   else{
+    
+  winOrlost.innerHTML="YOU WON";
+  winOrlost.style.backgroundColor='rgb(22, 163, 74)'
+    const count = 200,
+  defaults = {
+    origin: { y: 0.7 },
+  };
+
+function fire(particleRatio, opts) {
+  confetti(
+    Object.assign({}, defaults, opts, {
+      particleCount: Math.floor(count * particleRatio),
+    })
+  );
+}
+
+fire(0.25, {
+  spread: 26,
+  startVelocity: 55,
+});
+
+fire(0.2, {
+  spread: 60,
+});
+
+fire(0.35, {
+  spread: 100,
+  decay: 0.91,
+  scalar: 0.8,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 25,
+  decay: 0.92,
+  scalar: 1.2,
+});
+
+fire(0.1, {
+  spread: 120,
+  startVelocity: 45,
+});
+
+
+   }
+
+
+   
+}
+       
+          fetch('/data/details').then((res)=>res.json()).then((data)=>
+          {
+
+               countriesData=[...data.countries];
+               filling();
+          })
+          const filling=()=>
+          {
+            let listItem;
+               countriesData.forEach((country)=>
+               {
+                    countriesDataMap.set(country.name,country)
+                    listItem=document.createElement('li');
+                    listItem.textContent=country.name;
+                    resultList.appendChild(listItem)
+               })
+               let listItems=document.querySelectorAll('li')
+               searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            listItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+               if(searchTerm==='')
+               {
+                resultList.style.display='none'
+               }
+               else
+               {
+                if (text.startsWith(searchTerm)) {
+                    resultList.style.display='block'
+                    item.style.display = 'block';
+                    
+                } else {
+                    item.style.display = 'none';
+                }
+               }
+                
+            });
+        });
+       
+        searchInput.addEventListener('click',(event)=>
+        {
+            event.stopPropagation();
+            listItems.forEach((item)=>
+            {
+                resultList.style.display='block'
+                    item.style.display = 'block';
+            })
+        })
+       
+        listItems.forEach((item)=>
+        {
+            item.addEventListener('click',()=>
+                {
+                    resultList.style.display='none';
+                    searchInput.value='';
+                    countryguess=item.textContent;
+                    let {latitude,longitude}=countriesDataMap.get(countryguess)
+                    let km=classifier(latitude,longitude,lat,lng)
+                    let direction=getGeneralDirection(latitude,longitude,lat,lng)
+                 
+                    guessView[guessCount].innerHTML="";
+                    let guessDiv=document.createElement('div');
+                    guessDiv.className='guessDetails';
+                    for(let i=0;i<=2;i++)
+                    {
+                        let g=document.createElement('div');
+                        let gparent=document.createElement('div');
+                    gparent.className='gparent';
+                        if(i===0)
+                        {
+                            g.innerHTML=countryguess;
+                        }
+                        else if(i===1)
+                        {
+                            g.innerHTML=km+" km"
+                        }
+                        else if(i===2)
+                        {
+                            if(km===0)
+                            {
+                                direction="🏆"
+                            }
+                            g.innerHTML=direction;
+                        }
+                        else{
+
+                        }
+                        g.className='g';
+                      gparent.append(g)
+                        guessDiv.append(gparent)
+                    }
+                    
+                    guessView[guessCount].append(guessDiv)
+                     guessCount++;
+                     if(km===0)
+                     {
+                        guessCount=6;
+                        lost=false;
+                     }
+                     if(guessCount===6)
+                     {
+                        showAnswer();
+                     }
+                }
+                
+                )
+        })
+          }
+
+          
+       </script>
+       
+</body>
+</html>
