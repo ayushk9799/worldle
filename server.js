@@ -38,7 +38,7 @@ catch(error)
 }
 app.get('/data/details',(req,res)=>
 {
-    
+    res.set('Cache-control', 'public, max-age=30672000')
     res.json({countries:countriesDetails})
 })
 app.get('/data/countries', async(req,res)=>
@@ -47,8 +47,7 @@ app.get('/data/countries', async(req,res)=>
         let country=countries[Math.floor(Math.random()*countries.length)];
         let countryLatAndLong=countryMap.get(country.slice(0,country.indexOf(".svg")));
         const data=await fs.readFile(`countries/${country}`,'utf8')
-        res.set('Cache-control', 'public, max-age=30672000')
-        res.json({data:data,country:countryLatAndLong})
+       res.json({data:data,country:countryLatAndLong})
 
     }
     catch(error)
