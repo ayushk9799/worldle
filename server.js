@@ -2,11 +2,7 @@ import express from 'express';
 import fs from 'fs/promises'
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import compression from 'compression';
-
-
 const app=express();
-app.use(compression())
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(__dirname+'/public'))
 const countries=[];
@@ -42,20 +38,16 @@ catch(error)
 }
 app.get('/data/details',(req,res)=>
 {
-    console.log("hello");
-    console.log("data etails")
+    
     res.json({countries:countriesDetails})
 })
 app.get('/data/countries', async(req,res)=>
 {
-   console.log('data countries')
     try{
         let country=countries[Math.floor(Math.random()*countries.length)];
-        console.log(country)
         let countryLatAndLong=countryMap.get(country.slice(0,country.indexOf(".svg")));
-        console.log(countryLatAndLong)
         const data=await fs.readFile(`countries/${country}`,'utf8')
-       
+        res.set('Cache-control', 'public, max-age=30672000')
         res.json({data:data,country:countryLatAndLong})
 
     }
