@@ -56,6 +56,22 @@ app.get('/data/countries', async(req,res)=>
         res.send("error")
     }
 })
+
+app.get('/challenges', async(req,res)=>
+{
+    console.log('challenge')
+    res.sendFile(__dirname+'/public/index.html')
+})
+
+app.get('/data/specific', async(req,res)=>
+{
+    let country=req.query.challenge;
+    country=Buffer.from(country, 'base64').toString('utf-8');
+    console.log(country);
+    let countryLatAndLong=countryMap.get(country);
+        const data=await fs.readFile(`countries/${country}.svg`,'utf8')
+       res.json({data:data,country:countryLatAndLong})
+})
 app.listen(3000,()=>
 {
     console.log("server owrking on 3000")

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,user-scalable=no">
     
     <title>Unlimited Worldle - Guess the Country</title>
     
@@ -20,6 +20,8 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
 <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
 <link rel="canonical" href="https://unlimitedworldle.com">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
 <!-- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"> -->
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
 <!-- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"> -->
@@ -191,32 +193,34 @@ ul{
     li:hover
     {
         background-color: rgb(219, 219, 219);
+        cursor:pointer;
     }
     .correct
     {
         width:100%;
-        height:50px;
+       padding:5px;
         box-shadow: rgba(29, 177, 43, 0.24) 0px 3px 8px;
-        background-color:rgb(22, 163, 74);
+        background-color:rgb(0, 0, 0);
         color: white;
         display:flex;
         justify-content: center;
         align-items: center;
-        font-size: 25px;
+        font-size: 16px;
         margin-bottom: 5px;
+        border-radius: 10px;
     }
     .winOrlost
     {
         width:100%;
-        height:50px;
         box-shadow: rgba(29, 177, 43, 0.24) 0px 3px 8px;
-       
         color: white;
         display:flex;
         justify-content: center;
         align-items: center;
-        font-size: 25px;
+        font-size: 16px;
         margin-bottom: 5px;
+        border-radius: 10px;
+        padding:5px;
     }
     .playagaincontainer
     {
@@ -224,7 +228,7 @@ ul{
          justify-content: center;
          align-items: center;
     }
-    .playagain
+    .playagain,.challenge
     {
         width:fit-content;
         padding:5px;
@@ -234,10 +238,36 @@ ul{
         display:flex;
         justify-content: center;
         align-items: center;
-        font-size: 25px;
+        font-size: 20px;
         border-radius: 5px;
+        cursor:pointer;
+        margin:5px;
     }
-    
+   .challengeContainer
+   {
+    display: flex;
+         justify-content: center;
+         align-items: center;
+
+   }
+
+   .popupContainer
+   {
+    position:relative;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+   }
+
+   .popup{
+    position:absolute;
+    z-index: 1;
+    background-color: rgb(22, 163, 74);
+    color: white;
+    padding:5px;
+    border-radius: 5px;
+    font-size: 20px;
+   }
 </style>
 <body>
    
@@ -274,7 +304,11 @@ ul{
                 <div class="guessed" >
                     <div class="gue">Guess??</div>           
                 </div>
-               
+                <div class="challengeContainer">
+                    <div class="challenge" id="challengeother">
+                        Challenge Others...
+                      </div>
+                </div> 
             </div>
            
             
@@ -289,6 +323,9 @@ ul{
         let countryguess;
         let lost=true;
         let guessCount=0;
+        let challenge=document.getElementById("challengeother");
+        let maincontent=document.getElementById('maincontent');
+        let worldle=document.getElementById('worldle')
         let buttonCall=document.getElementById('buttoncall')
         let imageContainer=document.getElementById('imageContainerimg')
         let resultList=document.getElementById('countriesul')
@@ -298,7 +335,22 @@ ul{
 
         const getguessCountry=()=>
         {
-            fetch('/data/countries').then((res)=>res.json()).then((data)=>
+                let url;
+                console.log(window.location.href);
+            if(window.location.href==='http://localhost:3000/')
+            { 
+                 url='http://localhost:3000/data/countries';
+                 console.log("first")
+            }
+            else{
+                let query=window.location.search;
+                let params= new URLSearchParams(query);
+                let country=params.get('challenge')
+        
+                url=`http://localhost:3000/data/specific?challenge=${country}`
+                console.log('second')
+            }
+            fetch(url).then((res)=>res.json()).then((data)=>
         {
 
             imageContainer.src=`data:image/svg+xml;utf8,${data.data}`;
@@ -369,6 +421,33 @@ ul{
   
 }
 
+
+const challengeOther=()=>
+{
+    let inputtemp=document.createElement('input');
+    let base64=btoa(country);
+    inputtemp.value=`http://localhost:3000/challenges?challenge=${base64}`;
+    document.body.appendChild(inputtemp);
+
+inputtemp.select();
+console.log("hello")
+document.execCommand("copy");
+
+document.body.removeChild(inputtemp);
+let popup=document.createElement('div');
+let popupContainer=document.createElement('div');
+popupContainer.className="popupContainer";
+popup.textContent="Link Copied !! Challenge Others..";
+popup.className="popup";
+popupContainer.append(popup);
+maincontent.insertBefore(popupContainer,worldle.nextSibling);
+setTimeout(()=>
+{
+    popupContainer.remove();
+},2000)
+
+}
+challenge.onclick=challengeOther;
 const playagainbutton=()=>
 {
     location.reload();
@@ -378,7 +457,6 @@ const showAnswer=()=>
 
 
     searchInput.style.display='none'
-    
    let ele= document.createElement('div');
    let winOrlost=document.createElement('div');
    let playagainContainer=document.createElement('div');
