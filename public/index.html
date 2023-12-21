@@ -347,9 +347,9 @@ ul{
         {
                 let url;
                 console.log(window.location.href);
-            if(window.location.href==='http://localhost:3000/')
+            if(window.location.href==='https://unlimitedworldle.com/')
             { 
-                 url='http://localhost:3000/data/countries';
+                 url='https://unlimitedworldle/data/countries';
                  console.log("first")
             }
             else{
@@ -357,7 +357,7 @@ ul{
                 let params= new URLSearchParams(query);
                 let country=params.get('challenge')
         
-                url=`http://localhost:3000/data/specific?challenge=${country}`
+                url=`https://unlimitedworldle.com/data/specific?challenge=${country}`
                 console.log('second')
             }
             fetch(url).then((res)=>res.json()).then((data)=>
