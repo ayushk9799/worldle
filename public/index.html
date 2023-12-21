@@ -29,6 +29,15 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RXSFGWGN7K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RXSFGWGN7K');
+</script>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.12.0/tsparticles.confetti.bundle.min.js" defer></script>
 </head>
 
@@ -270,7 +279,6 @@ ul{
    }
 </style>
 <body>
-   
        <div id="container">
         <div id="maincontent" >
             
@@ -452,7 +460,7 @@ setTimeout(()=>
 challenge.onclick=challengeOther;
 const playagainbutton=()=>
 {
-    location.reload();
+    window.location.href = 'http://localhost:3000/';
 }
 const showAnswer=()=>
 {
